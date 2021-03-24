@@ -2,3 +2,13 @@ name: Heaven
 author: Shurisko
 version: 1.0.8
 main: fr.shurisko.Heaven
+commands:
+  party:
+    aliases:
+      - p
+      - partie
+      - parties
+      - groupe
+      - g
+      - faction
+      - f

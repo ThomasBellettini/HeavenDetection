@@ -1,5 +1,8 @@
 package fr.shurisko.general.utils;
 
+import fr.shurisko.Heaven;
+import fr.shurisko.api.HeavenPlayer;
+import net.minecraft.server.v1_8_R3.BiomeForest;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
@@ -9,7 +12,7 @@ import java.util.HashMap;
 
 public class LoadRank {
 
-    private Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+    public Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
     public static HashMap<PermissionEnum, Team> teamPermission = new HashMap<PermissionEnum, Team>();
     public static Team heavenValidation;
 
@@ -62,24 +65,38 @@ public class LoadRank {
         }
     }
 
-    public void updatePlayerRank (Player p)
+    public void updateAllPlayerRank ()
     {
-        if (p.hasPermission(PermissionEnum.OWNER.getPermission())) {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            HeavenPlayer heavenPlayer = Heaven.getPlayerLoader.getPlayerFromBukkit(p);
+
+            if (heavenPlayer == null) {
+                Heaven.getPlayerLoader.addPlayer(new HeavenPlayer(p.getName()));
+                heavenPlayer = Heaven.getPlayerLoader.getPlayerFromBukkit(p);
+            }
+            updatePlayerRank(p, heavenPlayer);
+            updatePlayerRankScoreboard();
+        }
+    }
+
+    public void updatePlayerRank (Player p, HeavenPlayer heavenPlayer)
+    {
+        if (heavenPlayer.getRank() == PermissionEnum.OWNER) {
             p.setDisplayName("§4Owner " + p.getPlayer().getName());
             teamPermission.get(PermissionEnum.OWNER).addPlayer(p);
-        } else if (p.hasPermission(PermissionEnum.ADMIN.getPermission())) {
+        } else if (heavenPlayer.getRank() == PermissionEnum.ADMIN) {
             p.setDisplayName("§cAdmin " + p.getPlayer().getName());
             teamPermission.get(PermissionEnum.ADMIN).addPlayer(p);
-        } else if (p.hasPermission(PermissionEnum.MOD.getPermission())) {
+        } else if (heavenPlayer.getRank() == PermissionEnum.MOD) {
             p.setDisplayName("§9Mod " + p.getPlayer().getName());
             teamPermission.get(PermissionEnum.MOD).addPlayer(p);
-        } else if (p.hasPermission(PermissionEnum.MEMBER.getPermission())) {
+        } else if (heavenPlayer.getRank() == PermissionEnum.MEMBER) {
             p.setDisplayName("§eMember " + p.getPlayer().getName());
-            teamPermission.get(PermissionEnum.OWNER).addPlayer(p);
-        } else if (p.hasPermission(PermissionEnum.FRIEND.getPermission())) {
+            teamPermission.get(PermissionEnum.MEMBER).addPlayer(p);
+        } else if (heavenPlayer.getRank() == PermissionEnum.FRIEND) {
             p.setDisplayName("§dFriend " + p.getPlayer().getName());
             teamPermission.get(PermissionEnum.FRIEND).addPlayer(p);
-        } else if (p.hasPermission(PermissionEnum.OTHER.getPermission())) {
+        } else if (heavenPlayer.getRank() == PermissionEnum.OTHER) {
             p.setDisplayName("§7Aspirant " + p.getPlayer().getName());
             teamPermission.get(PermissionEnum.OTHER).addPlayer(p);
         } else {
