@@ -12,3 +12,12 @@ commands:
       - g
       - faction
       - f
+      - team
+      - teams
+      - t
+  rank:
+    aliases:
+      - grade
+      - userrank
+      - usergrade
+      - user

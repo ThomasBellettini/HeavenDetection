@@ -24,22 +24,19 @@ public class LoadRank {
         Team member;
         Team friend;
         Team other;
-        Team heaven;
 
-        if (scoreboard.getTeam("owner") == null) owner = scoreboard.registerNewTeam("owner");
-        else owner = scoreboard.getTeam("owner");
-        if (scoreboard.getTeam("admin") == null) admin = scoreboard.registerNewTeam("admin");
-        else admin = scoreboard.getTeam("admin");
-        if (scoreboard.getTeam("mod") == null) mod = scoreboard.registerNewTeam("mod");
-        else mod = scoreboard.getTeam("mod");
-        if (scoreboard.getTeam("member") == null) member = scoreboard.registerNewTeam("member");
-        else member = scoreboard.getTeam("member");
-        if (scoreboard.getTeam("friend") == null) friend = scoreboard.registerNewTeam("friend");
-        else friend = scoreboard.getTeam("friend");
-        if (scoreboard.getTeam("other") == null) other = scoreboard.registerNewTeam("other");
-        else other = scoreboard.getTeam("other");
-        if (scoreboard.getTeam("heaven") == null) heaven = scoreboard.registerNewTeam("heaven");
-        else heaven = scoreboard.getTeam("heaven");
+        if (scoreboard.getTeam("aaowner") == null) owner = scoreboard.registerNewTeam("aaowner");
+        else owner = scoreboard.getTeam("aaowner");
+        if (scoreboard.getTeam("badmin") == null) admin = scoreboard.registerNewTeam("badmin");
+        else admin = scoreboard.getTeam("badmin");
+        if (scoreboard.getTeam("cmod") == null) mod = scoreboard.registerNewTeam("cmod");
+        else mod = scoreboard.getTeam("cmod");
+        if (scoreboard.getTeam("dmember") == null) member = scoreboard.registerNewTeam("dmember");
+        else member = scoreboard.getTeam("dmember");
+        if (scoreboard.getTeam("efriend") == null) friend = scoreboard.registerNewTeam("efriend");
+        else friend = scoreboard.getTeam("efriend");
+        if (scoreboard.getTeam("fother") == null) other = scoreboard.registerNewTeam("fother");
+        else other = scoreboard.getTeam("fother");
 
         owner.setPrefix("§4Owner ");
         admin.setPrefix("§cAdmin ");
@@ -47,7 +44,6 @@ public class LoadRank {
         member.setPrefix("§eMember ");
         friend.setPrefix("§dFriend ");
         other.setPrefix("§7Aspirant ");
-        heaven.setSuffix(" §7[§aHeaven§7]");
 
         teamPermission.put(PermissionEnum.OWNER, owner);
         teamPermission.put(PermissionEnum.ADMIN, admin);
@@ -55,10 +51,9 @@ public class LoadRank {
         teamPermission.put(PermissionEnum.MEMBER, member);
         teamPermission.put(PermissionEnum.FRIEND, friend);
         teamPermission.put(PermissionEnum.OTHER, other);
-        heavenValidation = heaven;
     }
 
-    private void updatePlayerRankScoreboard ()
+    public void updatePlayerRankScoreboard ()
     {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.setScoreboard(scoreboard);
@@ -74,13 +69,15 @@ public class LoadRank {
                 Heaven.getPlayerLoader.addPlayer(new HeavenPlayer(p.getName()));
                 heavenPlayer = Heaven.getPlayerLoader.getPlayerFromBukkit(p);
             }
-            updatePlayerRank(p, heavenPlayer);
+            updatePlayerRank(heavenPlayer);
             updatePlayerRankScoreboard();
         }
     }
 
-    public void updatePlayerRank (Player p, HeavenPlayer heavenPlayer)
+    public void updatePlayerRank (HeavenPlayer heavenPlayer)
     {
+        Player p = Bukkit.getPlayer(heavenPlayer.getName());
+
         if (heavenPlayer.getRank() == PermissionEnum.OWNER) {
             p.setDisplayName("§4Owner " + p.getPlayer().getName());
             teamPermission.get(PermissionEnum.OWNER).addPlayer(p);

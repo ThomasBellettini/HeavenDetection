@@ -1,5 +1,6 @@
 package fr.shurisko.api;
 
+import fr.shurisko.Heaven;
 import fr.shurisko.api.team.HeavenTeam;
 import fr.shurisko.general.utils.PermissionEnum;
 import org.bukkit.Bukkit;
@@ -108,14 +109,9 @@ public class HeavenPlayer {
         this.playerTeam = playerTeam;
     }
 
-    public String sendTeamRequest(HeavenPlayer sender) {
-        if (sender.playerTeam == null) return "§cErreur, Vous n'avez pas de team.";
-        if (sender.playerTeam.owner != sender) return "§cErreur Vous n'êtes pas le chef de la team.";
-        if (this.request != null && this.request.getName() == sender.playerTeam.getName()) return "§cErreur, Vous avez déjà demandée à cette personne de rejoindre votre team.";
-
-        Bukkit.getPlayer(this.getName()).sendMessage("§eHeaven → §aVous avez reçu une invitation pour rejoindre la team §e" + this.request.getName());
-        this.setRequest(sender.playerTeam);
-        return "§aVous avez invité le joueur §e" + request.getName() + " §aà rejoindre votre team.";
+    public void sendTeamRequest(HeavenTeam team) {
+        this.setRequest(team);
+        Bukkit.getPlayer(getName()).sendMessage("§eHeaven → §aVous avez reçu une invitation pour rejoindre la team §e" + this.request.getName());
     }
 
 }

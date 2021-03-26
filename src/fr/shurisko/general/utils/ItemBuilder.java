@@ -12,7 +12,8 @@ import java.util.List;
 
 public class ItemBuilder {
 
-    public static ItemStack makeItem (String name, List<String> lore, List<HeavenEnchantment> enchantmentList, int number, Material material, Boolean hideEnchant, int id, Boolean unbreakable)
+    public static ItemStack makeItem (String name, List<String> lore, List<HeavenEnchantment> enchantmentList, int number,
+                                      Material material, Boolean hideEnchant, int id, Boolean unbreakable)
     {
         ItemStack item;
         if (id == -1)

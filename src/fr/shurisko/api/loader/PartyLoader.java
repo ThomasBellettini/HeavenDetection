@@ -34,6 +34,7 @@ public class PartyLoader {
     }
 
     public void disband(HeavenTeam team) {
+        team.teamScore.unregister();
         heavenTeams.removeIf(heavenTeam -> heavenTeam.getName().equalsIgnoreCase(team.getName()));
     }
 

@@ -2,7 +2,6 @@ package fr.shurisko.general.event;
 
 import fr.shurisko.Heaven;
 import fr.shurisko.api.HeavenPlayer;
-import fr.shurisko.api.team.HeavenTeam;
 import fr.shurisko.general.utils.ItemBuilder;
 import fr.shurisko.general.utils.api.HeavenEnchantment;
 import org.bukkit.Material;
@@ -31,7 +30,7 @@ public class UserJoinEvent implements Listener {
         }
         heavenPlayer.setHeaven(true);
         p.teleport(p.getWorld().getSpawnLocation());
-        Heaven.getRankLoader.updatePlayerRank(p, heavenPlayer);
+        Heaven.getRankLoader.updatePlayerRank(heavenPlayer);
         event.setJoinMessage("§7[§a+§7] §7" + p.getDisplayName());
         p.getInventory().clear();
         List<HeavenEnchantment> enchantment = new ArrayList<HeavenEnchantment>(Arrays.asList(new HeavenEnchantment(Enchantment.LUCK, 1)));
@@ -41,6 +40,7 @@ public class UserJoinEvent implements Listener {
         if (heavenPlayer.isHeaven)
             p.getInventory().setItem(0, ItemBuilder.makeItem("§a↣ Serveur Heaven", lore, null,  1, Material.INK_SACK, false, 9, true));
         p.updateInventory();
+        Heaven.getPlayerLoader.refreshTab();
         p.setScoreboard(Heaven.getRankLoader.scoreboard);
     }
 }
